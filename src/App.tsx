@@ -5,7 +5,7 @@ function App() {
   const [rendom, setRendom] = useState<typeof imaged>([]);
   const [flippedStates, setFlippedStates] = useState<boolean[]>([]);
   const [openCard, setOpenCard] = useState<number[]>([]);
-  const [selectCard, setSelectCard] = useState<number[]>([]); // Bu endi cardId lar bo‘ladi
+  const [selectCard, setSelectCard] = useState<number[]>([]);
 
   useEffect(() => {
     const shuffled = shuffleArray(imaged);
@@ -28,7 +28,7 @@ function App() {
     if (
       flippedStates[index] ||
       openCard.length === 2 ||
-      selectCard.includes(rendom[index].cardId) // cardId bo‘yicha tekshiramiz
+      selectCard.includes(rendom[index].cardId)
     )
       return;
 
@@ -46,11 +46,9 @@ function App() {
       const secondCardId = rendom[secondIdx].cardId;
 
       if (firstCardId === secondCardId) {
-        // Match topildi (cardId bo‘yicha)
         setSelectCard((prev) => [...prev, firstCardId]);
         setOpenCard([]);
       } else {
-        // Match topilmadi — 1 soniya kutib qaytar
         setTimeout(() => {
           setFlippedStates((prev) => {
             const updated = [...prev];
@@ -69,7 +67,7 @@ function App() {
     if (selectCard.length === uniqueCardIds.size && selectCard.length !== 0) {
       setTimeout(() => {
         const confirmed = window.confirm(
-          "Barcha juftliklar topildi! Yangi o'yin boshlansinmi?"
+          "Barcha rasimpar topildi! Yangi o'yin boshlansinmi?"
         );
         if (confirmed) {
           const shuffled = shuffleArray(imaged);
@@ -87,7 +85,7 @@ function App() {
       <div className="grid grid-cols-4 gap-4 w-full max-w-4xl">
         {rendom.map((item, index) => {
           const isFlipped =
-            flippedStates[index] || selectCard.includes(item.cardId); // cardId bo‘yicha har doim ochiq qoladi
+            flippedStates[index] || selectCard.includes(item.cardId);
           return (
             <div
               key={item.id}
@@ -102,7 +100,6 @@ function App() {
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* Front side */}
                 <div
                   className="absolute w-full h-full rounded-xl overflow-hidden"
                   style={{
@@ -117,7 +114,6 @@ function App() {
                   />
                 </div>
 
-                {/* Back side */}
                 <div
                   className="absolute w-full h-full bg-black rounded-xl flex items-center justify-center"
                   style={{
